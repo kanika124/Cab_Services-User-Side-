@@ -25,6 +25,6 @@ public class User {
     private String email;
     private String password;
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
-    List<User_Booking> userBookings = new ArrayList<>();
+    private List<User_Booking> userBookings;
 
 }
