@@ -27,4 +27,13 @@ public class UserService {
 
         return new ResponseEntity<>("User bna diya", HttpStatus.CREATED);
     }
+
+    public ResponseEntity<String> deleteByUserId(int id) {
+        if(userRepository.existsById(id)==false){
+            return new ResponseEntity<>("User nhi mila", HttpStatus.ALREADY_REPORTED);
+        }
+
+        userRepository.deleteById(id);
+        return new ResponseEntity<>("User hta diya",HttpStatus.GONE);
+    }
 }
