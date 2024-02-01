@@ -5,10 +5,7 @@ import in.railworld.Cab_Services.Entity.User;
 import in.railworld.Cab_Services.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,6 +22,16 @@ public class UserController {
             userService.addUser(user);
         }
         catch (Exception e){
+            return e.getMessage();
+        }
+        return null;
+    }
+    @DeleteMapping("/del_user/{}")
+    public String removeUser(@PathVariable int id){
+        try{
+            userService.deleteByUserId(id);
+        }
+        catch(Exception e){
             return e.getMessage();
         }
         return null;
