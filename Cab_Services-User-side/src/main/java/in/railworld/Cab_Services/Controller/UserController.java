@@ -36,4 +36,38 @@ public class UserController {
         }
         return null;
     }
+    @PutMapping("/")
+    public String updatePhone(@PathVariable int id, @RequestParam String phone){
+        try{
+            userService.updatePhone(id,phone);
+        }
+        catch(Exception e){
+            return e.getMessage();
+        }
+        return null;
+
+    }
+    @PutMapping("/")
+    public String updateEmail(@PathVariable int id, @RequestParam String email){
+        try{
+            userService.updateEmail(id,email);
+        }
+        catch(Exception e){
+            return e.getMessage();
+        }
+        return null;
+
+    }
+    @PutMapping("/")
+    public String updatePassword(@PathVariable int id, @RequestParam String password,@RequestParam String confirm){
+        try{
+            userService.updatePassword(id,password,confirm);
+        }
+        catch(Exception e){
+            return e.getMessage();
+        }
+        return null;
+
+    }
+
 }
