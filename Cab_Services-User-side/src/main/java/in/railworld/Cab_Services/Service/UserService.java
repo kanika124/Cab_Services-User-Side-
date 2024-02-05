@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -35,5 +36,28 @@ public class UserService {
 
         userRepository.deleteById(id);
         return new ResponseEntity<>("User hta diya",HttpStatus.GONE);
+    }
+
+    public ResponseEntity<String> updatePassword(int id, String password, String confirm) {
+        User user = userRepository.findById(id);
+        if(password==confirm){
+            user.setPassword(password);
+            userRepository.save(user);
+        }
+        return new ResponseEntity<>("Password change ho gya",HttpStatus.ACCEPTED);
+    }
+
+    public ResponseEntity<String> updateEmail(int id, String email) {
+        User user = userRepository.findById(id);
+        user.setPassword(email);
+        userRepository.save(user);
+        return new ResponseEntity<>("email badal diya",HttpStatus.ACCEPTED);
+    }
+
+    public ResponseEntity<String> updatePhone(int id, String phone) {
+        User user = userRepository.findById(id);
+        user.setPassword(phone);
+        userRepository.save(user);
+        return new ResponseEntity<>("phone number badal gya",HttpStatus.ACCEPTED);
     }
 }
