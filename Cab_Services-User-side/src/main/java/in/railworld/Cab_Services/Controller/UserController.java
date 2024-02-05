@@ -59,9 +59,9 @@ public class UserController {
 
     }
     @PutMapping("/")
-    public String updatePassword(@PathVariable int id, @RequestParam String password,@RequestParam String confirm){
+    public String updatePassword(@PathVariable int id,@RequestParam String oldPassword, @RequestParam String password,@RequestParam String confirm){
         try{
-            userService.updatePassword(id,password,confirm);
+            userService.updatePassword(id,oldPassword, password,confirm);
         }
         catch(Exception e){
             return e.getMessage();

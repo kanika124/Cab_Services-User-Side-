@@ -38,11 +38,13 @@ public class UserService {
         return new ResponseEntity<>("User hta diya",HttpStatus.GONE);
     }
 
-    public ResponseEntity<String> updatePassword(int id, String password, String confirm) {
+    public ResponseEntity<String> updatePassword(int id,String oldPassword, String password, String confirm) {
         User user = userRepository.findById(id);
-        if(password==confirm){
-            user.setPassword(password);
-            userRepository.save(user);
+        if(oldPassword==user.getPassword()){
+            if(password==confirm){
+                user.setPassword(password);
+                userRepository.save(user);
+            }
         }
         return new ResponseEntity<>("Password change ho gya",HttpStatus.ACCEPTED);
     }
