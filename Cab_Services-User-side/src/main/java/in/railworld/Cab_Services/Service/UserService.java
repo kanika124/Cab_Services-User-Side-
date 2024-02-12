@@ -6,16 +6,21 @@ import in.railworld.Cab_Services.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class  UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    private JavaMailSender emailSender;
     public ResponseEntity<String> addUser(User newUser){
 
         if(userRepository.existsById(newUser.getId())){
@@ -25,6 +30,8 @@ public class UserService {
         newUser.setUserBookings(new ArrayList<>());
 
         userRepository.save(newUser);
+
+        sendEmail(newUser.getEmail(), "Account Created", "aap add kr liye gye hain");
 
         return new ResponseEntity<>("User bna diya", HttpStatus.CREATED);
     }
@@ -77,5 +84,14 @@ public class UserService {
         userRepository.save(user);
 
         return new ResponseEntity<>("phone number badal gya",HttpStatus.ACCEPTED);
+    }
+
+    private void sendEmail(String receiver, String subject, String body){
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("sender_email_id");
+        message.setTo(receiver);
+        message.setSubject(subject);
+        message.setText(body);
+        emailSender.send(message);
     }
 }
