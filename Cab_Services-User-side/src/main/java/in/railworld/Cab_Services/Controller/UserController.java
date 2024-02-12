@@ -36,7 +36,7 @@ public class UserController {
         }
         return null;
     }
-    @PutMapping("/")
+    @PutMapping("/phone/{id}")
     public String updatePhone(@PathVariable int id, @RequestParam String phone){
         try{
             userService.updatePhone(id,phone);
@@ -47,7 +47,7 @@ public class UserController {
         return null;
 
     }
-    @PutMapping("/")
+    @PutMapping("/email/{id}")
     public String updateEmail(@PathVariable int id, @RequestParam String email){
         try{
             userService.updateEmail(id,email);
@@ -58,10 +58,10 @@ public class UserController {
         return null;
 
     }
-    @PutMapping("/")
+    @PutMapping("/password/{id}")
     public String updatePassword(@PathVariable int id,@RequestParam String oldPassword, @RequestParam String password,@RequestParam String confirm){
         try{
-            userService.updatePassword(id,oldPassword, password,confirm);
+            userService.updatePassword(id,oldPassword,password,confirm);
         }
         catch(Exception e){
             return e.getMessage();

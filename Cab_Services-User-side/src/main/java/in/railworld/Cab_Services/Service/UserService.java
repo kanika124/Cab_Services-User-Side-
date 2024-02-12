@@ -30,36 +30,52 @@ public class UserService {
     }
 
     public ResponseEntity<String> deleteByUserId(int id) {
+        try{
         if(userRepository.existsById(id)==false){
-            return new ResponseEntity<>("User nhi mila", HttpStatus.ALREADY_REPORTED);
+            return new ResponseEntity<>("User nhi mila", HttpStatus.NOT_FOUND);
         }
+        userRepository.deleteById(id);}
+        catch(Exception e){
 
-        userRepository.deleteById(id);
+        }
         return new ResponseEntity<>("User hta diya",HttpStatus.GONE);
     }
 
-    public ResponseEntity<String> updatePassword(int id,String oldPassword, String password, String confirm) {
-        User user = userRepository.findById(id);
-        if(oldPassword==user.getPassword()){
-            if(password==confirm){
-                user.setPassword(password);
-                userRepository.save(user);
-            }
+    public ResponseEntity<String> updatePassword(int id,String oldPassword, String password, String confirm) throws Exception {
+        if(!userRepository.existsById(id)){
+            throw new Exception("nhi mila");
         }
+            User user = userRepository.findById(id);
+            if (oldPassword == user.getPassword()) {
+                if (password == confirm) {
+                    user.setPassword(password);
+                    userRepository.save(user);
+                }
+            }
+
         return new ResponseEntity<>("Password change ho gya",HttpStatus.ACCEPTED);
     }
 
-    public ResponseEntity<String> updateEmail(int id, String email) {
-        User user = userRepository.findById(id);
-        user.setPassword(email);
-        userRepository.save(user);
-        return new ResponseEntity<>("email badal diya",HttpStatus.ACCEPTED);
+    public ResponseEntity<String> updateEmail(int id, String email) throws Exception{
+        if(!userRepository.existsById(id)){
+            throw new Exception("User h hi nhi");
+        }
+
+        User currUser = userRepository.findById(id);
+        currUser.setEmail(email);
+        userRepository.save(currUser);
+
+        return new ResponseEntity<>("Email badal diya",HttpStatus.ACCEPTED);
     }
 
-    public ResponseEntity<String> updatePhone(int id, String phone) {
+    public ResponseEntity<String> updatePhone(int id, String phone) throws Exception {
+      if(!userRepository.existsById(id)){
+          throw new Exception("nhi mila");
+      }
         User user = userRepository.findById(id);
         user.setPassword(phone);
         userRepository.save(user);
+
         return new ResponseEntity<>("phone number badal gya",HttpStatus.ACCEPTED);
     }
 }
